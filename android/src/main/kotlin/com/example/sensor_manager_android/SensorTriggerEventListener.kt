@@ -19,14 +19,13 @@ class SensorTriggerEventListener(
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
         eventSink = events
         sensorManager.requestTriggerSensor(this, sensorManager.getDefaultSensor(sensorType))
-        Log.e(
-            "event", "${arguments.toString()}"
-        )
+        Log.i(TAG, "Unregister Listener to ${sensorManager.getDefaultSensor(sensorType)} sensor")
     }
 
     override fun onCancel(arguments: Any?) {
         eventSink = null
         sensorManager.cancelTriggerSensor(this, sensorManager.getDefaultSensor(sensorType))
+        Log.i(TAG, "Unregister Listener to ${sensorManager.getDefaultSensor(sensorType)} sensor")
     }
 
     override fun onTrigger(event: TriggerEvent?) {

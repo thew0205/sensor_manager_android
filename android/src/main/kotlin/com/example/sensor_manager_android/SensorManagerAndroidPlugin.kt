@@ -4,7 +4,6 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Build
-import android.util.Log
 import androidx.annotation.NonNull
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.BinaryMessenger
@@ -12,7 +11,6 @@ import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 
 
 /** SensorManagerAndroidPlugin */
@@ -34,7 +32,7 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
         channel.setMethodCallHandler(this)
         messenger = flutterPluginBinding.binaryMessenger
         sensorManager =
-            flutterPluginBinding.applicationContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            flutterPluginBinding.applicationContext.getSystemService(Context.SENSOR_SERVICE)
         eventChannelDynamicSensorCallback =
             EventChannel(messenger, "${eventChannelName}eventChannelDynamicSensorCallback")
 
@@ -47,7 +45,6 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
             }
             "getSensorList" -> {
                 val sensorMapList = mutableListOf<Map<String, Any>>()
-                Log.i(TAG, call.arguments.toString())
                 sensorManager.getSensorList(call.argument<Int>("sensorType") ?: Sensor.TYPE_ALL)
                     .forEach { sensorMap: Sensor -> sensorMapList.add(sensorToJson(sensorMap)) }
                 result.success(sensorMapList)
@@ -59,7 +56,6 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
             }
             "getDynamicSensorList" -> {
                 val sensorMapList = mutableListOf<Map<String, Any>>()
-                Log.i(TAG, call.arguments.toString())
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     sensorManager.getDynamicSensorList(
                         call.argument<Int>("sensorType") ?: Sensor.TYPE_ALL
@@ -68,7 +64,6 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
                 result.success(sensorMapList)
             }
             "getDefaultSensor" -> {
-                Log.i(TAG, call.arguments.toString())
                 var sensorMap: Map<String, Any> = mutableMapOf()
                 if (call.argument<Int>("wakeUp") == null) {
                     sensorMap = sensorToJson(
@@ -102,9 +97,7 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
                             eventChannelName + "eventChannelDynamicSensorCallback"
                         )
                         eventChannelDynamicSensorCallback?.setStreamHandler(
-                            DynamicSensorCallback(
-                                sensorManager
-                            )
+                            DynamicSensorCallback(sensorManager)
                         )
                     }
                 }
@@ -238,25 +231,9 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
             Sensor.TYPE_HINGE_ANGLE -> {
                 return Sensor.STRING_TYPE_HINGE_ANGLE
             }
-//      Sensor.TYPE_HEAD_TRACKER -> {
-//        return Sensor.STRING_TYPE_HEAD_TRACKER
-//      }
-//      Sensor.TYPE_ACCELEROMETER_LIMITED_AXES -> {
-//        return Sensor.STRING_TYPE_ACCELEROMETER_LIMITED_AXES
-//      }
-//      Sensor.TYPE_GYROSCOPE_LIMITED_AXES -> {
-//        return Sensor.STRING_TYPE_GYROSCOPE_LIMITED_AXES
-//      }
-//      Sensor.TYPE_ACCELEROMETER_LIMITED_AXES_UNCALIBRATED -> {
-//        return Sensor.STRING_TYPE_ACCELEROMETER_LIMITED_AXES_UNCALIBRATED
-//      }
-//      Sensor.TYPE_GYROSCOPE_LIMITED_AXES_UNCALIBRATED -> {
-//        return Sensor.STRING_TYPE_GYROSCOPE_LIMITED_AXES_UNCALIBRATED
-//      }
-//      Sensor.TYPE_HEADING -> {
-//        return Sensor.STRING_TYPE_HEADING
-//      }
-            else -> "Unknon"
+            else -> {
+                return "Unknown"
+            }
         }
     }
 }

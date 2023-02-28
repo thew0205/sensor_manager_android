@@ -34,11 +34,12 @@ class DynamicSensorCallback(private val sensorManager: SensorManager) :
     override fun onListen(arguments: Any?, events: EventSink?) {
         eventSink = events
         sensorManager.registerDynamicSensorCallback(this)
-        Log.i( TAG, "${arguments.toString()}")
+        Log.i( TAG, "Register Listener to dynamic sensor")
 
     }
 
     override fun onCancel(arguments: Any?) {
+        Log.i( TAG, "Unregister Listener to dynamic sensor")
         sensorManager.unregisterDynamicSensorCallback(this)
         eventSink = null
     }

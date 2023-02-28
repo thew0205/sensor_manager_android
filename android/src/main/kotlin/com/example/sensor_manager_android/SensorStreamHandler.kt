@@ -19,17 +19,16 @@ class SensorStreamHandler(
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
         eventSink = events
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType), interval)
-        Log.d(TAG, "Register Listener to ${sensorManager.getDefaultSensor(sensorType)} sensor")
+        Log.i(TAG, "Register Listener to ${sensorManager.getDefaultSensor(sensorType)} sensor")
     }
 
     override fun onCancel(arguments: Any?) {
         sensorManager.unregisterListener(this, sensorManager.getDefaultSensor(sensorType))
-        Log.d(TAG, "Unregister Listener to ${sensorManager.getDefaultSensor(sensorType)} sensor")
+        Log.i(TAG, "Unregister Listener to ${sensorManager.getDefaultSensor(sensorType)} sensor")
         eventSink = null
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        Log.d("Sensor", event?.toString() ?: "event")
         eventSink?.success(event?.let { sensorEventToJson(it) })
     }
 
