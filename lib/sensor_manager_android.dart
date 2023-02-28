@@ -83,8 +83,7 @@ class SensorManagerAndroid {
   /// of the returned {@link Sensor}.
   /// </p>
   ///
-  /// @param type
-  ///        of sensors requested
+  /// @param type of sensors requested
   ///
   /// @return a list of sensors matching the asked type.
   ///
@@ -99,7 +98,6 @@ class SensorManagerAndroid {
   ///
   /// @return <code>true</code> if dynamic sensor discovery is supported, <code>false</code>
   /// otherwise.
-
   Future<bool> isDynamicSensorDiscoverySupported() async {
     return SensorManagerAndroidPlatform.instance
         .isDynamicSensorDiscoverySupported();

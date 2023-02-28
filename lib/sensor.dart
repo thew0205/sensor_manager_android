@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
 
-
 /// Class representing a sensor. Use {@link SensorManager#getSensorList} to get
 /// the list of available sensors. For more information about Android sensors,
 /// read the
@@ -12,23 +11,24 @@ import 'dart:core';
 /// @see SensorEvent
 ///
 class Sensor {
-   /* Some of these fields are set only by the native bindings in
-     * SensorManager.
-     */
+  /* Some of these fields are set only by the native bindings in
+  * SensorManager.
+  */
 
-     /// @return name string of the sensor. The name is guaranteed to be unique
-     /// for a particular sensor type.
+  /// @return name string of the sensor. The name is guaranteed to be unique
+  /// for a particular sensor type.
   final String name;
+
   /// @return vendor string of this sensor.
   final String vendor;
 
- /// @return version of the sensor's module.
+  /// @return version of the sensor's module.
   final int version;
 
   /// @return generic type of this sensor.
   final int type;
 
-   /// @return maximum range of the sensor in the sensor's unit.
+  /// @return maximum range of the sensor in the sensor's unit.
   final double maxRange;
 
   /// @return resolution of the sensor in the sensor's unit.
@@ -52,14 +52,13 @@ class Sensor {
   /// @see #REPORTING_MODE_ON_CHANGE
   /// @see #REPORTING_MODE_ONE_SHOT
   /// @see #REPORTING_MODE_SPECIAL_TRIGGER
-      final int? reportingMode;
+  final int? reportingMode;
 
   /// Returns true if the sensor is a dynamic sensor.
   ///
   /// @return <code>true</code> if the sensor is a dynamic sensor (sensor added at runtime).
   /// @see SensorManager.DynamicSensorCallback
   final bool? isDynamicSensor;
-
 
   /// Returns true if the sensor is a wake-up sensor.
   /// <p>
@@ -98,14 +97,14 @@ class Sensor {
   /// @return <code>true</code> if this is a wake-up sensor, <code>false</code> otherwise.
   final bool? isWakeUpSensor;
 
-/// @return Number of events reserved for this sensor in the batch mode FIFO. This gives a
-/// guarantee on the minimum number of events that can be batched.
+  /// @return Number of events reserved for this sensor in the batch mode FIFO. This gives a
+  /// guarantee on the minimum number of events that can be batched.
   final int? fifoReservedEventCount;
 
-   /// @return Maximum number of events of this sensor that could be batched. If this value is zero
-   /// it indicates that batch mode is not supported for this sensor. If other applications
-   /// registered to batched sensors, the actual number of events that can be batched might be
-   /// smaller because the hardware FiFo will be partially used to batch the other sensors.
+  /// @return Maximum number of events of this sensor that could be batched. If this value is zero
+  /// it indicates that batch mode is not supported for this sensor. If other applications
+  /// registered to batched sensors, the actual number of events that can be batched might be
+  /// smaller because the hardware FiFo will be partially used to batch the other sensors.
   final int? fifoMaxEventCount;
 
   /// @return The type of this sensor as a string.
@@ -947,5 +946,3 @@ class Sensor {
     }
   }
 }
-
-

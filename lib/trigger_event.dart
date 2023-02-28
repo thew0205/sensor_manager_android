@@ -21,6 +21,7 @@ import 'sensor.dart';
 /// @see android.hardware.Sensor
 
 class TriggerEvent {
+
   /// <p>
   /// The length and contents of the {@link #values values} array depends on
   /// which {@link android.hardware.Sensor sensor} type is being monitored (see
@@ -29,19 +30,16 @@ class TriggerEvent {
   /// <h4> {@link Sensor#TYPE_SIGNIFICANT_MOTION} </h4>
   /// The value field is of length 1. value[0] = 1.0 when the sensor triggers.
   /// 1.0 is the only allowed value.
-
   final List<double> values;
 
   /// The sensor that generated this event. See
   /// {@link android.hardware.SensorManager SensorManager} for details.
-
   final Sensor sensor;
 
   /// The time in nanosecond at which the event happened
-
   final int timestamp;
 
-  TriggerEvent(this.values, this.sensor, this.timestamp);
+  const TriggerEvent(this.values, this.sensor, this.timestamp);
 
   TriggerEvent copyWith({
     List<double>? values,

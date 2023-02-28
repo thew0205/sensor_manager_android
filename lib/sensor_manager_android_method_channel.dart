@@ -16,10 +16,10 @@ class MethodChannelSensorManagerAndroid extends SensorManagerAndroidPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel(methodChannelName);
 
-  final eventChannels = <int, EventChannel>{};
-  final sensorSubscriptions = <int, StreamSubscription?>{};
-  EventChannel? dynamicEvent;
-  StreamSubscription? dynamicSubscription;
+  final _eventChannels = <int, EventChannel>{};
+  final _sensorSubscriptions = <int, StreamSubscription?>{};
+  EventChannel? _dynamicEventChannel;
+  StreamSubscription? _dynamicSensorSubscription;
 
   @override
   Future<String?> getPlatformVersion() async {
@@ -28,15 +28,12 @@ class MethodChannelSensorManagerAndroid extends SensorManagerAndroidPlatform {
     return version;
   }
 
-  @override
   Future<List<Sensor>> getSensorList(int sensorType) async {
     final sensorList = (await methodChannel
             .invokeListMethod("getSensorList", {"sensorType": sensorType})) ??
         [];
-
     return sensorList.map(
       (sensor) {
-        print(sensor);
         return Sensor.fromMap(sensor.cast<String, Object>());
       },
     ).toList();
@@ -54,7 +51,6 @@ class MethodChannelSensorManagerAndroid extends SensorManagerAndroidPlatform {
 
     return sensorList.map(
       (sensor) {
-        print(sensor);
         return Sensor.fromMap(sensor.cast<String, Object>());
       },
     ).toList();
@@ -71,10 +67,10 @@ class MethodChannelSensorManagerAndroid extends SensorManagerAndroidPlatform {
       void Function(Sensor, int)? onAccuracyChanged}) async {
     methodChannel.invokeMethod('registerListener',
         {"sensorType": sensorType, if (interval != null) "interval": interval});
-    eventChannels[sensorType] =
+    _eventChannels[sensorType] =
         EventChannel(eventChannelName + Sensor.setType(sensorType));
 
-    sensorSubscriptions[sensorType] = eventChannels[sensorType]
+    _sensorSubscriptions[sensorType] = _eventChannels[sensorType]
         ?.receiveBroadcastStream()
         .cast<Map>()
         .listen((event) {
@@ -89,31 +85,31 @@ class MethodChannelSensorManagerAndroid extends SensorManagerAndroidPlatform {
   }
 
   void unregisterListener(int sensorType) {
-    sensorSubscriptions[sensorType]?.cancel();
+    _sensorSubscriptions[sensorType]?.cancel();
   }
 
   void registerDynamicSensorCallback(
       {void Function(SensorEvent)? onDynamicSensorDisconnected}) async {
     await methodChannel.invokeMethod('registerDynamicSensorCallback');
-    dynamicEvent ??= const EventChannel(
+    _dynamicEventChannel ??= const EventChannel(
         "${eventChannelName}eventChannelDynamicSensorCallback");
-    dynamicSubscription =
-        dynamicEvent?.receiveBroadcastStream().cast<Map>().map((event) {
+    _dynamicSensorSubscription =
+        _dynamicEventChannel?.receiveBroadcastStream().cast<Map>().map((event) {
       return SensorEvent.fromMap(event.cast<String, Object>());
     }).listen(onDynamicSensorDisconnected);
   }
 
   void unregisterDynamicSensorCallback() {
-    dynamicSubscription?.cancel();
+    _dynamicSensorSubscription?.cancel();
   }
 
   void registerTriggerSensorCallback(int sensorType,
       {void Function(TriggerEvent)? onTrigger}) async {
     await methodChannel
         .invokeMethod('requestTriggerSensor', {"sensorType": sensorType});
-    eventChannels[sensorType] =
+    _eventChannels[sensorType] =
         EventChannel(eventChannelName + Sensor.setType(sensorType));
-    sensorSubscriptions[sensorType] = eventChannels[sensorType]
+    _sensorSubscriptions[sensorType] = _eventChannels[sensorType]
         ?.receiveBroadcastStream()
         .cast<Map>()
         .map((event) {
@@ -122,6 +118,6 @@ class MethodChannelSensorManagerAndroid extends SensorManagerAndroidPlatform {
   }
 
   void cancelTriggerSensor(int sensorType) {
-    sensorSubscriptions[sensorType]?.cancel();
+    _sensorSubscriptions[sensorType]?.cancel();
   }
 }
