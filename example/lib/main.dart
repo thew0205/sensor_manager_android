@@ -125,7 +125,7 @@ class SensorListWidget extends StatelessWidget {
 
 class SensorWidget extends StatefulWidget {
   final Sensor sensor;
-  SensorWidget({super.key, required this.sensor});
+  const SensorWidget({super.key, required this.sensor});
 
   @override
   State<SensorWidget> createState() => _SensorWidgetState();

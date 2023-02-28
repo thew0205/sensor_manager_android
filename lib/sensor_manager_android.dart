@@ -61,6 +61,7 @@ import 'sensor_event.dart';
 ///
 
 class SensorManagerAndroid {
+  
   const SensorManagerAndroid._();
   static const _instance = SensorManagerAndroid._();
 

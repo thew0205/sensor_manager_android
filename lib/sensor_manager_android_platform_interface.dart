@@ -1,6 +1,5 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'sensor.dart';
 import 'sensor_manager_android_method_channel.dart';
 
 abstract class SensorManagerAndroidPlatform extends PlatformInterface {

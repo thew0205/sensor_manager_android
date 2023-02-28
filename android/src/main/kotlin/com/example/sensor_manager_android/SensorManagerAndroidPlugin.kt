@@ -10,6 +10,7 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 
 
@@ -32,7 +33,7 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
         channel.setMethodCallHandler(this)
         messenger = flutterPluginBinding.binaryMessenger
         sensorManager =
-            flutterPluginBinding.applicationContext.getSystemService(Context.SENSOR_SERVICE)
+            flutterPluginBinding.applicationContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         eventChannelDynamicSensorCallback =
             EventChannel(messenger, "${eventChannelName}eventChannelDynamicSensorCallback")
 

@@ -644,7 +644,7 @@ class SensorEvent {
 
   final int timestamp;
 
-  SensorEvent(
+  const SensorEvent(
     this.sensor,
     this.accuracy,
     this.timestamp,

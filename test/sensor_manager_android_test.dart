@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sensor_manager_android/sensor.dart';
 import 'package:sensor_manager_android/sensor_manager_android.dart';
 import 'package:sensor_manager_android/sensor_manager_android_platform_interface.dart';
 import 'package:sensor_manager_android/sensor_manager_android_method_channel.dart';

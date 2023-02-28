@@ -123,7 +123,7 @@ class Sensor {
   /// reset. Return value of 0 means this sensor does not support this function; return value of -1
   /// means this sensor can be uniquely identified in system by combination of its type and name.
   final int? id;
-  Sensor({
+  const Sensor({
     required this.name,
     required this.vendor,
     required this.version,
