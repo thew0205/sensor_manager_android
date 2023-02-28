@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sensor_manager_android/sensor_manager_android_method_channel.dart';
+import '../lib/sensor_manager_android_method_channel.dart';
 
 void main() {
   MethodChannelSensorManagerAndroid platform = MethodChannelSensorManagerAndroid();

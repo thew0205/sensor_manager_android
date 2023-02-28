@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import 'package:sensor_manager_android/sensor.dart';
@@ -58,16 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text("isDynamicSensorDiscoverySupported"),
             ),
-            Text(
-                "isDynamicSensorDiscoverySupported : $isDynamicSensorDiscoverySupported"),
-            ElevatedButton(
-              onPressed: () async {
-                isDynamicSensorDiscoverySupported = await SensorManagerAndroid.instance
-                    .isDynamicSensorDiscoverySupported();
-                setState(() {});
-              },
-              child: const Text("isDynamicSensorDiscoverySupported"),
-            ),
+         
             ElevatedButton(
                 onPressed: () {
                   SensorManagerAndroid.instance.getSensorList().then(
@@ -192,29 +182,7 @@ class _SensorWidgetState extends State<SensorWidget> {
                         .toList() ??
                     [],
               ),
-              // FutureBuilder(
-              //     future:
-              //         SensorManagerAndroid.getSensorEventStream(widget.sensor.type),
-              //     builder: (context, snapshot) {
-              //       return StreamBuilder<SensorEvent>(
-              //         stream: snapshot.data,
-              //         builder: (BuildContext context,
-              //             AsyncSnapshot<SensorEvent> snapshot) {
-              //           print(snapshot.data);
-              //           if (snapshot.hasData) {
-              //             return Wrap(
-              //               spacing: 18,
-              //               children: snapshot.data?.values
-              //                       .map((e) => Text(e.toString()))
-              //                       .toList() ??
-              //                   [],
-              //             );
-              //           } else {
-              //             return const Text("No data yet");
-              //           }
-              //         },
-              //       );
-              //     }),
+             
             )
           ],
         ),
@@ -242,58 +210,3 @@ class SensorDataWidget extends StatelessWidget {
   }
 }
 
-
-
-// class MyApp extends StatefulWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-
-// class _MyAppState extends State<MyApp> {
-//   String _platformVersion = 'Unknown';
-//   final _SensorManagerAndroidugin = SensorManagerAndroid;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     initPlatformState();
-//   }
-
-//   // Platform messages are asynchronous, so we initialize in an async method.
-//   Future<void> initPlatformState() async {
-//     String platformVersion;
-//     // Platform messages may fail, so we use a try/catch PlatformException.
-//     // We also handle the message potentially returning null.
-//     try {
-//       platformVersion =
-//           (await _SensorManagerAndroidugin.getSensorList()).toString();
-//     } on PlatformException {
-//       platformVersion = 'Failed to get platform version.';
-//     }
-
-//     // If the widget was removed from the tree while the asynchronous platform
-//     // message was in flight, we want to discard the reply rather than calling
-//     // setState to update our non-existent appearance.
-//     if (!mounted) return;
-
-//     setState(() {
-//       _platformVersion = platformVersion;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(
-//           title: const Text('Plugin example app'),
-//         ),
-//         body: Center(
-//           child: Text('Running on: $_platformVersion\n'),
-//         ),
-//       ),
-//     );
-//   }
-// }

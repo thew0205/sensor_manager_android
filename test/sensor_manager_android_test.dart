@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sensor_manager_android/sensor_manager_android.dart';
-import 'package:sensor_manager_android/sensor_manager_android_platform_interface.dart';
-import 'package:sensor_manager_android/sensor_manager_android_method_channel.dart';
+import '../lib/sensor_manager_android_platform_interface.dart';
+import '../lib/sensor_manager_android_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockSensorManagerAndroidPlatform

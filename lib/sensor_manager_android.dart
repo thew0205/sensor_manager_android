@@ -1,9 +1,9 @@
 library sensor_manager_android;
 
 import 'dart:async';
-import 'package:sensor_manager_android/sensor_manager_android_platform_interface.dart';
 import 'sensor.dart';
 import 'sensor_event.dart';
+import 'sensor_manager_android_platform_interface.dart';
 
 /// <p>
 /// SensorManager lets you access the device's {@link android.hardware.Sensor
@@ -61,7 +61,7 @@ import 'sensor_event.dart';
 ///
 
 class SensorManagerAndroid {
-  
+
   const SensorManagerAndroid._();
   static const _instance = SensorManagerAndroid._();
 

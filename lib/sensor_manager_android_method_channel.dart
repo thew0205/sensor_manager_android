@@ -85,7 +85,7 @@ class MethodChannelSensorManagerAndroid extends SensorManagerAndroidPlatform {
   }
 
   void unregisterListener(int sensorType) {
-    _sensorSubscriptions[sensorType]?.cancel();
+     _sensorSubscriptions[sensorType]?.cancel();
   }
 
   void registerDynamicSensorCallback(

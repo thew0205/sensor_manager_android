@@ -1,5 +1,5 @@
 name: sensor_manager_android
-description: A new Flutter plugin implementation of the android sensor API.
+description: A Flutter plugin implementation of the android sensor API.
 version: 0.0.1
 homepage: https://github.com/thew0205/sensor_manager_android.git
 
