@@ -191,10 +191,10 @@ SensorEvent? sensorEvent;
   }
 ```
 
-| <img src="/assets/step_counter.png?raw=true" width="400px">  <img src="/assets/step_counter.png?raw=true" width="400px"> |
+ <img src="/assets/step_counter.png?raw=true" width="400px">  <img src="/assets/step_counter.png?raw=true" width="400px"> 
 
-### Streaming SensorEvent Data
-<video width="400px"> <source src="assets\light_sensor_animation.mp4" type="video/mp4"> Streaming SensorEvent Data not showing</video>
+<!-- ### Streaming SensorEvent Data
+<video width="400px"> <source src="assets\light_sensor_animation.mp4" type="video/mp4"> Streaming SensorEvent Data not showing</video> -->
 
 
 ## Getting Started
