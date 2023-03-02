@@ -1,9 +1,12 @@
 library sensor_manager_android;
 
+// part 'src/sensor_manager_android_method_channel.dart';
+
 import 'dart:async';
+
 import 'sensor.dart';
 import 'sensor_event.dart';
-import 'sensor_manager_android_platform_interface.dart';
+import 'src/sensor_manager_android_platform_interface.dart';
 
 /// <p>
 /// SensorManager lets you access the device's {@link android.hardware.Sensor
@@ -24,22 +27,22 @@ import 'sensor_manager_android_platform_interface.dart';
 /// In order to access sensor data at high sampling rates (i.e. greater than 200 Hz
 /// for {@link SensorEventListener} and greater than {@link SensorDirectChannel#RATE_NORMAL}
 /// for {@link SensorDirectChannel}), apps must declare
-/// the {@link android.Manifest.permission#HIGH_SAMPLING_RATE_SENSORS} permission
+/// the {@link android.Manifest.permission#HIGH_SAMPLING_RATE_sensors} permission
 /// in their AndroidManifest.xml file.
 /// </p>
 /// <pre class="prettyprint">
-/// public class SensorActivity extends Activity implements SensorEventListener {
+///  class SensorActivity extends Activity implements SensorEventListener {
 ///     private final SensorManager mSensorManager;
 ///     private final Sensor mAccelerometer;
 ///
-///     public SensorActivity() {
-///         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+///      SensorActivity() {
+///         mSensorManager = (SensorManager)getSystemService(sensor_service);
 ///         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 ///     }
 ///
 ///     protected void onResume() {
 ///         super.onResume();
-///         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+///         mSensorManager.registerListener(this, mAccelerometer, SensorManager.sensor_delay_normal);
 ///     }
 ///
 ///     protected void onPause() {
@@ -47,10 +50,10 @@ import 'sensor_manager_android_platform_interface.dart';
 ///         mSensorManager.unregisterListener(this);
 ///     }
 ///
-///     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+///      void onAccuracyChanged(Sensor sensor, int accuracy) {
 ///     }
 ///
-///     public void onSensorChanged(SensorEvent event) {
+///      void onSensorChanged(SensorEvent event) {
 ///     }
 /// }
 /// </pre>
@@ -61,14 +64,13 @@ import 'sensor_manager_android_platform_interface.dart';
 ///
 
 class SensorManagerAndroid {
-
   const SensorManagerAndroid._();
   static const _instance = SensorManagerAndroid._();
 
   static SensorManagerAndroid get instance => _instance;
 
-  Future<String?> getPlatformVersion() {
-    return SensorManagerAndroidPlatform.instance.getPlatformVersion();
+  Future<int?> getSDKVersion() {
+    return SensorManagerAndroidPlatform.instance.getSDKVersion();
   }
 
   /// Use this method to get the list of available sensors of a certain type.
@@ -99,7 +101,7 @@ class SensorManagerAndroid {
   ///
   /// @return <code>true</code> if dynamic sensor discovery is supported, <code>false</code>
   /// otherwise.
-  Future<bool> isDynamicSensorDiscoverySupported() async {
+  Future<bool?> isDynamicSensorDiscoverySupported() async {
     return SensorManagerAndroidPlatform.instance
         .isDynamicSensorDiscoverySupported();
   }
@@ -163,7 +165,7 @@ class SensorManagerAndroid {
   ///         and the application has the necessary permissions, or null otherwise.
   /// @see Sensor#isWakeUpSensor()
 
-  Future<Sensor> getDefaultSensor(int sensorType, [bool? wakeUp]) async {
+  Future<Sensor?> getDefaultSensor(int sensorType, [bool? wakeUp]) async {
     return SensorManagerAndroidPlatform.instance
         .getDefaultSensor(sensorType, wakeUp);
   }
@@ -209,11 +211,11 @@ class SensorManagerAndroid {
   /// @param samplingPeriodUs The rate {@link android.hardware.SensorEvent sensor events} are
   ///            delivered at. This is only a hint to the system. Events may be received faster or
   ///            slower than the specified rate. Usually events are received faster. The value must
-  ///            be one of {@link #SENSOR_DELAY_NORMAL}, {@link #SENSOR_DELAY_UI},
-  ///            {@link #SENSOR_DELAY_GAME}, or {@link #SENSOR_DELAY_FASTEST} or, the desired delay
+  ///            be one of {@link #sensor_delay_normal}, {@link #sensor_delay_ui},
+  ///            {@link #sensor_delay_game}, or {@link #sensor_delay_fastest} or, the desired delay
   ///            between events in microseconds. Specifying the delay in microseconds only works
   ///            from Android 2.3 (API level 9) onwards. For earlier releases, you must use one of
-  ///            the {@code SENSOR_DELAY_*} constants.
+  ///            the {@code sensor_delay_*} constants.
   /// @return <code>true</code> if the sensor is supported and successfully enabled.
   /// @see #registerListener(SensorEventListener, Sensor, int, Handler)
   /// @see #unregisterListener(SensorEventListener)
@@ -221,9 +223,11 @@ class SensorManagerAndroid {
 
   void registerListener(int sensorType,
       {int? interval,
+      int? maxReportLatencyUs,
       void Function(SensorEvent)? onSensorChanged,
       void Function(Sensor, int)? onAccuracyChanged}) {
     return SensorManagerAndroidPlatform.instance.registerListener(sensorType,
+        maxReportLatencyUs: maxReportLatencyUs,
         interval: interval,
         onSensorChanged: onSensorChanged,
         onAccuracyChanged: onAccuracyChanged);
@@ -329,6 +333,21 @@ class SensorManagerAndroid {
     return SensorManagerAndroidPlatform.instance
         .cancelTriggerSensor(sensorType);
   }
+
+  /// The values returned by this sensor cannot be trusted, calibration is
+  /// needed or the environment doesn't allow readings
+  static const int sensorStatusUnreliable = 0;
+
+  /// This sensor is reporting data with low accuracy, calibration with the
+  /// environment is needed
+  static const int sensorStatusAccuracyLow = 1;
+
+  /// This sensor is reporting data with an average level of accuracy,
+  /// calibration with the environment may improve the readings
+  static const int sensorStatusAccuracyMedium = 2;
+
+  /// This sensor is reporting data with maximum accuracy
+  static const int sensorStatusAccuracyHigh = 3;
 
   /// Standard gravity (g) on Earth. This value is equivalent to 1G
   static const standardGravity = 9.80665;

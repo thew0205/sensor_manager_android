@@ -24,7 +24,5 @@ abstract class SensorManagerAndroidPlatform extends PlatformInterface {
     _instance = instance as MethodChannelSensorManagerAndroid;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
-  }
+  
 }

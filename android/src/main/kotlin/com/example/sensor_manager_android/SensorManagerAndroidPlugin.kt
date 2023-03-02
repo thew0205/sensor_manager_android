@@ -10,8 +10,8 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import io.flutter.plugin.common.MethodChannel.Result
 
 
 /** SensorManagerAndroidPlugin */
@@ -41,8 +41,8 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
-            "getPlatformVersion" -> {
-                result.success("Android ${Build.VERSION.RELEASE}")
+            "getSDKVersion" -> {
+                result.success(Build.VERSION.SDK_INT)
             }
             "getSensorList" -> {
                 val sensorMapList = mutableListOf<Map<String, Any>>()
@@ -54,6 +54,11 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     result.success(sensorManager.isDynamicSensorDiscoverySupported)
                 }
+                result.error(
+                    "1",
+                   "${Build.VERSION_CODES.N}",
+                    null
+                )
             }
             "getDynamicSensorList" -> {
                 val sensorMapList = mutableListOf<Map<String, Any>>()
@@ -61,34 +66,40 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
                     sensorManager.getDynamicSensorList(
                         call.argument<Int>("sensorType") ?: Sensor.TYPE_ALL
                     ).forEach { sensorMap: Sensor -> sensorMapList.add(sensorToJson(sensorMap)) }
+                     result.success(sensorMapList)
                 }
-                result.success(sensorMapList)
+                 result.error(
+                    "1",
+                   "${Build.VERSION_CODES.N}",
+                    null
+                )
+               
             }
             "getDefaultSensor" -> {
                 var sensorMap: Map<String, Any> = mutableMapOf()
-                if (call.argument<Int>("wakeUp") == null) {
-                    sensorMap = sensorToJson(
-                        sensorManager.getDefaultSensor(
-                            call.argument<Int>("sensorType") ?: Sensor.TYPE_ALL
-                        )
-                    )
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        sensorMap = sensorToJson(
+                sensorMap =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && call.argument<Int>("wakeUp") != null) {
+                        sensorToJson(
                             sensorManager.getDefaultSensor(
-                                call.argument<Int>("sensorType") ?: Sensor.TYPE_ALL,
+                                call.argument<Int>("sensorType") ?: 0,
                                 call.argument<Boolean>("wakeUp")!!
                             )
                         )
+                    } else {
+                        sensorToJson(
+                            sensorManager.getDefaultSensor(
+                                call.argument<Int>("sensorType") ?: 0
+                            )
+                        )
                     }
-                }
                 result.success(sensorMap)
             }
             "registerListener" -> {
                 getSensorEvents(
-                    call.argument<Int>("sensorType") ?: Sensor.TYPE_ALL,
-                    call.argument<Int>("interval")
+                    call.argument<Int>("sensorType") ?: 0,
+                    call.argument<Int>("interval"), call.argument<Int>("maxReportLatencyUs")
                 )
+                result.success(null)
             }
             "registerDynamicSensorCallback" -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -97,11 +108,18 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
                             messenger,
                             eventChannelName + "eventChannelDynamicSensorCallback"
                         )
-                        eventChannelDynamicSensorCallback?.setStreamHandler(
-                            DynamicSensorCallback(sensorManager)
-                        )
+
                     }
+                    eventChannelDynamicSensorCallback!!.setStreamHandler(
+                        DynamicSensorCallback(sensorManager)
+                    )
+                    result.success(null)
                 }
+                result.error(
+                    "1",
+                    "${Build.VERSION_CODES.N}",
+                    null
+                )
             }
             "requestTriggerSensor" -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -109,11 +127,18 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
                     if (eventChannels[sensorType] == null) {
                         eventChannels[sensorType] =
                             EventChannel(messenger, eventChannelName + setType(sensorType))
-                        eventChannels[sensorType]?.setStreamHandler(
-                            SensorTriggerEventListener(sensorManager, sensorType)
-                        )
+
                     }
+                    eventChannels[sensorType]!!.setStreamHandler(
+                        SensorTriggerEventListener(sensorManager, sensorType)
+                    )
+                    result.success(null)
                 }
+                result.error(
+                    "1",
+                    "${Build.VERSION_CODES.JELLY_BEAN_MR2}",
+                    null
+                )
             }
             else -> {
                 result.notImplemented()
@@ -128,16 +153,21 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
         eventChannels.forEach { (_, eventChannel) -> eventChannel.setStreamHandler(null) }
     }
 
-    private fun getSensorEvents(sensorType: Int, interval: Int?) {
+    private fun getSensorEvents(sensorType: Int, interval: Int?, maxReportLatencyUs: Int?) {
         if (eventChannels[sensorType] == null) {
             eventChannels[sensorType] =
                 EventChannel(messenger, eventChannelName + setType(sensorType))
         }
         eventChannels[sensorType]!!.setStreamHandler(
             SensorStreamHandler(
-                sensorManager, sensorType, interval ?: SensorManager.SENSOR_DELAY_NORMAL
+                sensorManager,
+                sensorType,
+                interval ?: SensorManager.SENSOR_DELAY_NORMAL,
+                maxReportLatencyUs ?: 0
             )
+
         )
+
     }
 
     private fun setType(sensorType: Int): String {

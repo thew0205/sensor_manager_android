@@ -1,6 +1,7 @@
 package com.example.sensor_manager_android
 
 import android.hardware.*
+import android.os.Build
 import android.util.Log
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.EventSink
@@ -13,12 +14,21 @@ class SensorStreamHandler(
     private val sensorManager: SensorManager,
     private val sensorType: Int,
     private val interval: Int,
+    private val maxReportLatencyUs: Int
 ) : EventChannel.StreamHandler, SensorEventListener {
     private var eventSink: EventChannel.EventSink? = null
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
         eventSink = events
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType), interval)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && maxReportLatencyUs != 0) {
+            sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType), interval, maxReportLatencyUs)
+        }else {
+            sensorManager.registerListener(
+                this,
+                sensorManager.getDefaultSensor(sensorType),
+                interval
+            )
+        }
         Log.i(TAG, "Register Listener to ${sensorManager.getDefaultSensor(sensorType)} sensor")
     }
 

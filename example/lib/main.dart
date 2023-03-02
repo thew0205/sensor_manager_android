@@ -44,20 +44,27 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
             Text(
-                "isDynamicSensorDiscoverySupported : $isDynamicSensorDiscoverySupported"),
+                "Is Dynamic Sensor Discovery Supported : $isDynamicSensorDiscoverySupported"),
             ElevatedButton(
               onPressed: () async {
                 isDynamicSensorDiscoverySupported = await SensorManagerAndroid
-                    .instance.isDynamicSensorDiscoverySupported();
+                    .instance
+                    .isDynamicSensorDiscoverySupported();
                 setState(() {});
               },
               child: const Text("isDynamicSensorDiscoverySupported"),
             ),
-         
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BrightnessAnimationPage()),
+                );
+              },
+              child: const Text("Brightness Animation Page"),
+            ),
             ElevatedButton(
                 onPressed: () {
                   SensorManagerAndroid.instance.getSensorList().then(
@@ -76,6 +83,109 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+class BrightnessAnimationPage extends StatefulWidget {
+  const BrightnessAnimationPage({super.key});
+
+  @override
+  State<BrightnessAnimationPage> createState() =>
+      _BrightnessAnimationPageState();
+}
+
+class _BrightnessAnimationPageState extends State<BrightnessAnimationPage> {
+  Sensor? lightSensor;
+  SensorEvent? sensorEvent;
+
+  @override
+  void initState() {
+    super.initState();
+    SensorManagerAndroid.instance
+        .getDefaultSensor(Sensor.typeLight)
+        .then((value) => setState(() {
+              lightSensor = value;
+            }));
+    SensorManagerAndroid.instance.registerListener(
+      Sensor.typeLight,
+      onSensorChanged: (p0) {
+        setState(() {
+          sensorEvent = p0;
+        });
+      },
+      onAccuracyChanged: (p0, p1) {},
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    SensorManagerAndroid.instance.unregisterListener(Sensor.typeLight);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Brightness Animation",
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (lightSensor != null) {
+            SensorManagerAndroid.instance.unregisterListener(lightSensor!.type);
+          }
+        },
+        child: const Text("Cancel"),
+      ),
+      body: (lightSensor != null)
+          ? Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SensorDataWidget("Vendor", lightSensor!.vendor),
+                  SensorDataWidget(
+                      "Version", " ${lightSensor!.version.toString()}"),
+                  SensorDataWidget("Type", " ${lightSensor!.type.toString()}"),
+                  SensorDataWidget(
+                      "Resolution", " ${lightSensor!.resolution.toString()}"),
+                  SensorDataWidget("Reporting mode",
+                      " ${lightSensor!.reportingMode.toString()}"),
+                  SensorDataWidget(
+                      "Power", " ${lightSensor!.power.toString()}"),
+                  SensorDataWidget(
+                      "Min Delay", " ${lightSensor!.minDelay.toString()}"),
+                  SensorDataWidget(
+                      "Max range", " ${lightSensor!.maxRange.toString()}"),
+                  SensorDataWidget("Is Wake up sensor",
+                      " ${lightSensor!.isWakeUpSensor.toString()}"),
+                  SensorDataWidget("Is Dynamic sensor",
+                      " ${lightSensor!.isDynamicSensor.toString()}"),
+                  const Text("Sensor data"),
+                  SensorDataWidget("Value ",
+                      sensorEvent?.values.first.toStringAsFixed(5) ?? "nil"),
+                  Expanded(
+                    child: Icon(
+                      Icons.lightbulb,
+                      size: 200,
+                      color: const Color.fromARGB(255, 254, 152, 0).withOpacity(
+                        map_(sensorEvent?.values.first ?? 1000, 0,
+                            lightSensor?.maxRange ?? 10000, 0.15, 1),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : const Center(child: CircularProgressIndicator()),
+    );
+  }
+}
+
+double map_(
+    double value, double minValue, double maxValue, double min, double max) {
+  final r = ((max - min) * (value - minValue) / (maxValue - minValue)) + min;
+  return r;
 }
 
 class SensorListWidget extends StatelessWidget {
@@ -97,7 +207,7 @@ class SensorListWidget extends StatelessWidget {
           final sensor = sensorList[index];
           return ListTile(
             title: Text(sensor.name),
-            subtitle: Text(sensor.vendor),
+            subtitle: Text(Sensor.getSensorName(sensor.type)),
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -133,9 +243,8 @@ class _SensorWidgetState extends State<SensorWidget> {
         setState(() {
           sensorEvent = p0;
         });
-      },onAccuracyChanged: (p0, p1) {
-        
       },
+      onAccuracyChanged: (p0, p1) {},
     );
   }
 
@@ -169,20 +278,25 @@ class _SensorWidgetState extends State<SensorWidget> {
             SensorDataWidget(
                 "Resolution", " ${widget.sensor.resolution.toString()}"),
             SensorDataWidget(
-                "Max Range", " ${widget.sensor.maxRange.toString()}"),
+                "Reporting mode", " ${widget.sensor.reportingMode.toString()}"),
             SensorDataWidget("Power", " ${widget.sensor.power.toString()}"),
             SensorDataWidget(
                 "Min Delay", " ${widget.sensor.minDelay.toString()}"),
+            SensorDataWidget(
+                "Max range", " ${widget.sensor.maxRange.toString()}"),
+            SensorDataWidget("Is Wake up sensor",
+                " ${widget.sensor.isWakeUpSensor.toString()}"),
+            SensorDataWidget("Is Dynamic sensor",
+                " ${widget.sensor.isDynamicSensor.toString()}"),
             const Text("Sensor data"),
             Expanded(
-              child: Wrap(
-                spacing: 18,
-                children: sensorEvent?.values
-                        .map((e) => Text(e.toString()))
-                        .toList() ??
-                    [],
+              child: Column(
+                children: [
+                  for (var i = 0; i < (sensorEvent?.values.length ?? 0); i++)
+                    SensorDataWidget("Value ${i + 1} ",
+                        sensorEvent!.values[i].toStringAsFixed(5))
+                ],
               ),
-             
             )
           ],
         ),
@@ -209,4 +323,3 @@ class SensorDataWidget extends StatelessWidget {
     );
   }
 }
-

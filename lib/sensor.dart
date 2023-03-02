@@ -108,7 +108,7 @@ class Sensor {
   final int? fifoMaxEventCount;
 
   /// @return The type of this sensor as a string.
-  final String? stringYpe;
+  final String? stringType;
 
   /// This value is defined only for continuous and on-change sensors. It is the delay between two
   /// sensor events corresponding to the lowest frequency that this sensor supports. When lower
@@ -137,7 +137,7 @@ class Sensor {
     this.isWakeUpSensor,
     this.fifoReservedEventCount,
     this.fifoMaxEventCount,
-    this.stringYpe,
+    this.stringType,
     this.maxDelay,
     this.id,
   });
@@ -157,7 +157,7 @@ class Sensor {
       'isWakeUpSensor': isWakeUpSensor,
       'fifoReservedEventCount': fifoReservedEventCount,
       'fifoMaxEventCount': fifoMaxEventCount,
-      'stringYpe': stringYpe,
+      'stringType': stringType,
       'maxDelay': maxDelay,
       'id': id,
     };
@@ -186,7 +186,8 @@ class Sensor {
       fifoMaxEventCount: map['fifoMaxEventCount'] != null
           ? map['fifoMaxEventCount'] as int
           : null,
-      stringYpe: map['stringYpe'] != null ? map['stringYpe'] as String : null,
+      stringType:
+          map['stringType'] != null ? map['stringType'] as String : null,
       maxDelay: map['maxDelay'] != null ? map['maxDelay'] as int : null,
       id: map['id'] != null ? map['id'] as int : null,
     );
@@ -211,7 +212,7 @@ class Sensor {
     bool? isWakeUpSensor,
     int? fifoReservedEventCount,
     int? fifoMaxEventCount,
-    String? stringYpe,
+    String? stringType,
     int? maxDelay,
     int? id,
   }) {
@@ -230,7 +231,7 @@ class Sensor {
       fifoReservedEventCount:
           fifoReservedEventCount ?? this.fifoReservedEventCount,
       fifoMaxEventCount: fifoMaxEventCount ?? this.fifoMaxEventCount,
-      stringYpe: stringYpe ?? this.stringYpe,
+      stringType: stringType ?? this.stringType,
       maxDelay: maxDelay ?? this.maxDelay,
       id: id ?? this.id,
     );
@@ -238,7 +239,7 @@ class Sensor {
 
   @override
   String toString() {
-    return 'Sensor(name: $name, vendor: $vendor, version: $version, type $type maxRange: $maxRange, resolution: $resolution, power: $power, minDelay: $minDelay, reportingMode: $reportingMode, isDynamicSensor: $isDynamicSensor, isWakeUpSensor: $isWakeUpSensor, fifoReservedEventCount: $fifoReservedEventCount, fifoMaxEventCount: $fifoMaxEventCount, stringYpe: $stringYpe, maxDelay: $maxDelay, id: $id)';
+    return 'Sensor(name: $name, vendor: $vendor, version: $version, type $type maxRange: $maxRange, resolution: $resolution, power: $power, minDelay: $minDelay, reportingMode: $reportingMode, isDynamicSensor: $isDynamicSensor, isWakeUpSensor: $isWakeUpSensor, fifoReservedEventCount: $fifoReservedEventCount, fifoMaxEventCount: $fifoMaxEventCount, stringType: $stringType, maxDelay: $maxDelay, id: $id)';
   }
 
   @override
@@ -258,7 +259,7 @@ class Sensor {
         other.isWakeUpSensor == isWakeUpSensor &&
         other.fifoReservedEventCount == fifoReservedEventCount &&
         other.fifoMaxEventCount == fifoMaxEventCount &&
-        other.stringYpe == stringYpe &&
+        other.stringType == stringType &&
         other.maxDelay == maxDelay &&
         other.id == id;
   }
@@ -278,7 +279,7 @@ class Sensor {
         isWakeUpSensor.hashCode ^
         fifoReservedEventCount.hashCode ^
         fifoMaxEventCount.hashCode ^
-        stringYpe.hashCode ^
+        stringType.hashCode ^
         maxDelay.hashCode ^
         id.hashCode;
   }
@@ -290,7 +291,7 @@ class Sensor {
 
   /// A constant string describing an accelerometer sensor type.
   ///
-  /// @see #TYPE_ACCELEROMETER
+  /// @see #typeAccelerometer
   static const String stringTypeAccelerometer = "android.sensor.accelerometer";
 
   /// A constant describing a magnetic field sensor type.
@@ -300,7 +301,7 @@ class Sensor {
 
   /// A constant string describing a magnetic field sensor type.
   ///
-  /// @see #TYPE_MAGNETIC_FIELD
+  /// @see #typeMagneticField
   static const String stringTypeMagneticField = "android.sensor.magnetic_field";
 
   /// A constant describing an orientation sensor type.
@@ -314,7 +315,7 @@ class Sensor {
 
   /// A constant string describing an orientation sensor type.
   ///
-  /// @see #TYPE_ORIENTATION
+  /// @see #typeOrientation
   /// @deprecated use {@link android.hardware.SensorManager#getOrientation
   ///             SensorManager.getOrientation()} instead.
   @Deprecated("Don't know the reason hy it is deprecated")
@@ -327,7 +328,7 @@ class Sensor {
 
   /// A constant string describing a gyroscope sensor type.
   ///
-  /// @see #TYPE_GYROSCOPE
+  /// @see #typeGyroscope
   static const String stringTypeGyroscope = "android.sensor.gyroscope";
 
   /// A constant describing a light sensor type.
@@ -337,7 +338,7 @@ class Sensor {
 
   /// A constant string describing a light sensor type.
   ///
-  /// @see #TYPE_LIGHT
+  /// @see #typeLight
   static const String stringTypeLight = "android.sensor.light";
 
   /// A constant describing a pressure sensor type.
@@ -347,24 +348,24 @@ class Sensor {
 
   /// A constant string describing a pressure sensor type.
   ///
-  /// @see #TYPE_PRESSURE
+  /// @see #typePressure
   static const String stringTypePressure = "android.sensor.pressure";
 
   /// A constant describing a temperature sensor type
   ///
   /// @deprecated use
-  ///             {@link android.hardware.Sensor#TYPE_AMBIENT_TEMPERATURE
-  ///             Sensor.TYPE_AMBIENT_TEMPERATURE} instead.
-  @Deprecated("{Sensor.TYPE_AMBIENT_TEMPERATURE} instead.")
+  ///             {@link android.hardware.Sensor#typeAmbientTemperature
+  ///             Sensor.typeAmbientTemperature} instead.
+  @Deprecated("{Sensor.typeAmbientTemperature} instead.")
   static const int typeTemperature = 7;
 
   /// A constant string describing a temperature sensor type
   ///
-  /// @see #TYPE_TEMPERATURE
+  /// @see #typeTemperature
   /// @deprecated use
-  ///             {@link android.hardware.Sensor#STRING_TYPE_AMBIENT_TEMPERATURE
-  ///             Sensor.STRING_TYPE_AMBIENT_TEMPERATURE} instead.
-  @Deprecated("{Sensor.STRING_TYPE_AMBIENT_TEMPERATURE} instead.")
+  ///             {@link android.hardware.Sensor#STRINGTypeAmbientTemperature
+  ///             Sensor.STRINGTypeAmbientTemperature} instead.
+  @Deprecated("{Sensor.STRINGTypeAmbientTemperature} instead.")
   static const String stringTypeTemperature = "android.sensor.temperature";
 
   /// A constant describing a proximity sensor type. This is a wake up sensor.
@@ -375,7 +376,7 @@ class Sensor {
 
   /// A constant string describing a proximity sensor type.
   ///
-  /// @see #TYPE_PROXIMITY
+  /// @see #typeProximity
   static const String stringTypeProximity = "android.sensor.proximity";
 
   /// A constant describing a gravity sensor type.
@@ -385,7 +386,7 @@ class Sensor {
 
   /// A constant string describing a gravity sensor type.
   ///
-  /// @see #TYPE_GRAVITY
+  /// @see #typeGravity
   static const String stringTypeGravity = "android.sensor.gravity";
 
   /// A constant describing a linear acceleration sensor type.
@@ -395,7 +396,7 @@ class Sensor {
 
   /// A constant string describing a linear acceleration sensor type.
   ///
-  /// @see #TYPE_LINEAR_ACCELERATION
+  /// @see #typeLinearAcceleration
   static const String stringTypeLinearAcceleration =
       "android.sensor.linear_acceleration";
 
@@ -406,7 +407,7 @@ class Sensor {
 
   /// A constant string describing a rotation vector sensor type.
   ///
-  /// @see #TYPE_ROTATION_VECTOR
+  /// @see #typeRotationVector
   static const String stringTypeRotationVector =
       "android.sensor.rotation_vector";
 
@@ -417,7 +418,7 @@ class Sensor {
 
   /// A constant string describing a relative humidity sensor type
   ///
-  /// @see #TYPE_RELATIVE_HUMIDITY
+  /// @see #typeRelativeHumidity
   static const String stringTypeRelativeHumidity =
       "android.sensor.relative_humidity";
 
@@ -428,13 +429,13 @@ class Sensor {
 
   /// A constant string describing an ambient temperature sensor type.
   ///
-  /// @see #TYPE_AMBIENT_TEMPERATURE
+  /// @see #typeAmbientTemperature
   static const String stringTypeAmbientTemperature =
       "android.sensor.ambient_temperature";
 
   /// A constant describing an uncalibrated magnetic field sensor type.
   /// <p>
-  /// Similar to {@link #TYPE_MAGNETIC_FIELD} but the hard iron calibration (device calibration
+  /// Similar to {@link #typeMagneticField} but the hard iron calibration (device calibration
   /// due to distortions that arise from magnetized iron, steel or permanent magnets on the
   /// device) is not considered in the given sensor values. However, such hard iron bias values
   /// are returned to you separately in the result {@link android.hardware.SensorEvent#values}
@@ -450,12 +451,12 @@ class Sensor {
 
   /// A constant string describing an uncalibrated magnetic field sensor type.
   ///
-  /// @see #TYPE_MAGNETIC_FIELD_UNCALIBRATED
+  /// @see #typeMagneticFieldUncalibrated
   static const String stringTypeMagneticFieldUncalibrated =
       "android.sensor.magnetic_field_uncalibrated";
 
   /// A constant describing an uncalibrated rotation vector sensor type.
-  /// <p>Identical to {@link #TYPE_ROTATION_VECTOR} except that it doesn't
+  /// <p>Identical to {@link #typeRotationVector} except that it doesn't
   /// use the geomagnetic field. Therefore the Y axis doesn't
   /// point north, but instead to some other reference, that reference is
   /// allowed to drift by the same order of magnitude as the gyroscope
@@ -472,12 +473,12 @@ class Sensor {
 
   /// A constant string describing an uncalibrated rotation vector sensor type.
   ///
-  /// @see #TYPE_GAME_ROTATION_VECTOR
+  /// @see #typeGameRotationVector
   static const String stringTypeGameRotationVector =
       "android.sensor.game_rotation_vector";
 
   /// A constant describing an uncalibrated gyroscope sensor type.
-  /// <p>Similar to {@link #TYPE_GYROSCOPE} but no gyro-drift compensation has been performed
+  /// <p>Similar to {@link #typeGyroscope} but no gyro-drift compensation has been performed
   /// to adjust the given sensor values. However, such gyro-drift bias values
   /// are returned to you separately in the result {@link android.hardware.SensorEvent#values}
   /// so you may use them for custom calibrations.
@@ -490,7 +491,7 @@ class Sensor {
 
   /// A constant string describing an uncalibrated gyroscope sensor type.
   ///
-  /// @see #TYPE_GYROSCOPE_UNCALIBRATED
+  /// @see #typeGyroscopeUncalibrated
   static const String stringTypeGyroscopeUncalibrated =
       "android.sensor.gyroscope_uncalibrated";
 
@@ -508,7 +509,7 @@ class Sensor {
 
   /// A constant string describing a significant motion trigger sensor.
   ///
-  /// @see #TYPE_SIGNIFICANT_MOTION
+  /// @see #typeSignificantMotion
   static const String stringTypeSignificantMotion =
       "android.sensor.significant_motion";
 
@@ -520,7 +521,7 @@ class Sensor {
   /// when the foot hit the ground, generating a high variation in acceleration. This sensor is
   /// only for detecting every individual step as soon as it is taken, for example to perform dead
   /// reckoning. If you only need aggregate number of steps taken over a period of time, register
-  /// for {@link #TYPE_STEP_COUNTER} instead. It is defined as a
+  /// for {@link #typeStepCounter} instead. It is defined as a
   /// {@link Sensor#REPORTING_MODE_SPECIAL_TRIGGER} sensor.
   /// <p>
   /// This sensor requires permission {@code android.permission.ACTIVITY_RECOGNITION}.
@@ -530,7 +531,7 @@ class Sensor {
 
   /// A constant string describing a step detector sensor.
   ///
-  /// @see #TYPE_STEP_DETECTOR
+  /// @see #typeStepDetector
   static const String stringTypeStepDetector = "android.sensor.step_detector";
 
   /// A constant describing a step counter sensor.
@@ -553,12 +554,12 @@ class Sensor {
 
   /// A constant string describing a step counter sensor.
   ///
-  /// @see #TYPE_STEP_COUNTER
+  /// @see #typeStepCounter
   static const String stringTypeStepCounter = "android.sensor.step_counter";
 
   /// A constant describing a geo-magnetic rotation vector.
   /// <p>
-  /// Similar to {@link #TYPE_ROTATION_VECTOR}, but using a magnetometer instead of using a
+  /// Similar to {@link #typeRotationVector}, but using a magnetometer instead of using a
   /// gyroscope. This sensor uses lower power than the other rotation vectors, because it doesn't
   /// use the gyroscope. However, it is more noisy and will work best outdoors.
   /// <p>
@@ -567,7 +568,7 @@ class Sensor {
 
   /// A constant string describing a geo-magnetic rotation vector.
   ///
-  /// @see #TYPE_GEOMAGNETIC_ROTATION_VECTOR
+  /// @see #typeGeomagneticRotationVector
   static const String stringTypeGeomagneticRotationVector =
       "android.sensor.geomagnetic_rotation_vector";
 
@@ -588,7 +589,7 @@ class Sensor {
 
   /// A constant string describing a heart rate monitor.
   ///
-  /// @see #TYPE_HEART_RATE
+  /// @see #typeHeartRate
   static const String stringTypeHeartRate = "android.sensor.heart_rate";
 
   /// A sensor of this type generates an event each time a tilt event is detected. A tilt event
@@ -602,7 +603,7 @@ class Sensor {
   /// A constant string describing a wake up tilt detector sensor type.
   ///
   /// @hide
-  /// @see #TYPE_TILT_DETECTOR
+  /// @see #typeTiltDetector
   static const String sensorStringTypeTiltDetector =
       "android.sensor.tilt_detector";
 
@@ -626,7 +627,7 @@ class Sensor {
   /// A constant string describing a wake gesture sensor.
   ///
   /// @hide This sensor is expected to only be used by the system ui
-  /// @see #TYPE_WAKE_GESTURE
+  /// @see #typeWakeGesture
   static const String stringTypeWakeGesture = "android.sensor.wake_gesture";
 
   /// A constant describing a wake gesture sensor.
@@ -654,7 +655,7 @@ class Sensor {
   /// A constant string describing a wake gesture sensor.
   ///
   /// @hide This sensor is expected to only be used by the system ui
-  /// @see #TYPE_GLANCE_GESTURE
+  /// @see #typeGlanceGesture
   static const String stringTypeGlanceGesture = "android.sensor.glance_gesture";
 
   /// A constant describing a pick up sensor.
@@ -670,7 +671,7 @@ class Sensor {
   /// A constant string describing a pick up sensor.
   ///
   /// @hide This sensor is expected to be used internally for always on display.
-  /// @see #TYPE_PICK_UP_GESTURE
+  /// @see #typePickUpGesture
   static const String stringTypePickUpGesture =
       "android.sensor.pick_up_gesture";
 
@@ -682,14 +683,14 @@ class Sensor {
   ///
   /// @hide This sensor is expected to only be used by the system ui
   // @SystemApi
-  // public static final int TYPE_WRIST_TILT_GESTURE = 26;
+  // static final int typeWristTiltGesture = 26;
 
   /// A constant string describing a wrist tilt gesture sensor.
   ///
   /// @hide This sensor is expected to only be used by the system ui
-  /// @see #TYPE_WRIST_TILT_GESTURE
+  /// @see #typeWristTiltGesture
   // @SystemApi
-  // public static final String STRING_TYPE_WRIST_TILT_GESTURE = "android.sensor.wrist_tilt_gesture";
+  // static final String stringTypeWristTiltGesture = "android.sensor.wrist_tilt_gesture";
 
   /// The current orientation of the device.
   /// <p>
@@ -703,13 +704,13 @@ class Sensor {
   /// A constant string describing a device orientation sensor type.
   ///
   /// @hide
-  /// @see #TYPE_DEVICE_ORIENTATION
+  /// @see #typeDeviceOrientation
   static const String stringTypeDeviceOrientation =
       "android.sensor.device_orientation";
 
   /// A constant describing a pose sensor with 6 degrees of freedom.
   ///
-  /// Similar to {@link #TYPE_ROTATION_VECTOR}, with additional delta
+  /// Similar to {@link #typeRotationVector}, with additional delta
   /// translation from an arbitrary reference point.
   ///
   /// See {@link android.hardware.SensorEvent#values SensorEvent.values} for more details.
@@ -725,7 +726,7 @@ class Sensor {
 
   /// A constant string describing a pose sensor with 6 degrees of freedom.
   ///
-  /// @see #TYPE_POSE_6DOF
+  /// @see #typePose6dof
   static const String stringTypePose6dof = "android.sensor.pose_6dof";
 
   /// A constant describing a stationary detect sensor.
@@ -736,7 +737,7 @@ class Sensor {
 
   /// A constant string describing a stationary detection sensor.
   ///
-  /// @see #TYPE_STATIONARY_DETECT
+  /// @see #typeStationaryDetect
   static const String stringTypeStationaryDetect =
       "android.sensor.stationary_detect";
 
@@ -748,7 +749,7 @@ class Sensor {
 
   /// A constant string describing a motion detection sensor.
   ///
-  /// @see #TYPE_MOTION_DETECT
+  /// @see #typeMotionDetect
   static const String stringTypeMotionDetect = "android.sensor.motion_detect";
 
   /// A constant describing a heart beat sensor.
@@ -759,7 +760,7 @@ class Sensor {
 
   /// A constant string describing a heart beat sensor.
   ///
-  /// @see #TYPE_HEART_BEAT
+  /// @see #typeHeartBeat
 
   static const String stringTypeHeartBeat = "android.sensor.heart_beat";
 
@@ -771,17 +772,17 @@ class Sensor {
   ///
   /// @hide This sensor is expected to be used only by system services.
   //   @SystemApi
-  //  static const int typeDynamic_sensor_meta = 32;
+  //  static const int typeDynamicSensorMeta = 32;
   /// A constant string describing a dynamic sensor meta event sensor.
   ///
-  /// @see #TYPE_DYNAMIC_SENSOR_META
+  /// @see #typeDynamicSensorMeta
   ///
   /// @hide This sensor is expected to only be used by the system service
   //   @SystemApi
   //  static const String stringTypeDynamic_sensor_meta =
   //     "android.sensor.dynamic_sensor_meta";
 
-  /* TYPE_ADDITIONAL_INFO - defined as type 33 in the HAL is not exposed to
+  /* type_additional_info - defined as type 33 in the HAL is not exposed to
      * applications. There are parts of the framework that require the sensors
      * to be in the same order as the HAL. Skipping this sensor
      */
@@ -794,7 +795,7 @@ class Sensor {
 
   /// A constant string describing a low-latency offbody detector sensor.
   ///
-  /// @see #TYPE_LOW_LATENCY_OFFBODY_DETECT
+  /// @see #typeLowLatencyOffbodyDetect
   static const String stringTypeLowLatencyOffbodyDetect =
       "android.sensor.low_latency_offbody_detect";
 
@@ -806,7 +807,7 @@ class Sensor {
 
   /// A constant string describing an uncalibrated accelerometer sensor.
   ///
-  /// @see #TYPE_ACCELEROMETER_UNCALIBRATED
+  /// @see #typeAccelerometerUncalibrated
   ///
   static const String stringTypeAccelerometerUncalibrated =
       "android.sensor.accelerometer_uncalibrated";
@@ -819,13 +820,39 @@ class Sensor {
 
   /// A constant string describing a hinge angle sensor.
   ///
-  /// @see #TYPE_HINGE_ANGLE
+  /// @see #typeHingeAngle
   ///
   static const String stringTypeHingeAngle = "android.sensor.hinge_angle";
 
   /// A constant describing all sensor types.
 
   static const int typeAll = -1;
+
+  /// Events are reported at a constant rate which is set by the rate parameter of
+  /// {@link SensorManager#registerListener(SensorEventListener, Sensor, int)}. Note: If other
+  /// applications are requesting a higher rate, the sensor data might be delivered at faster rates
+  /// than requested.
+  static const int reportingModeContinuous = 0;
+
+  /// Events are reported only when the value changes. Event delivery rate can be limited by
+  /// setting appropriate value for rate parameter of
+  /// {@link SensorManager#registerListener(SensorEventListener, Sensor, int)} Note: If other
+  /// applications are requesting a higher rate, the sensor data might be delivered at faster rates
+  /// than requested.
+  static const int reportingModeOnChange = 1;
+
+  /// Events are reported in one-shot mode. Upon detection of an event, the sensor deactivates
+  /// itself and then sends a single event. Sensors of this reporting mode must be registered to
+  /// using {@link SensorManager#requestTriggerSensor(TriggerEventListener, Sensor)}.
+  static const int reportingModeOneShot = 2;
+
+  /// Events are reported as described in the description of the sensor. The rate passed to
+  /// registerListener might not have an impact on the rate of event delivery. See the sensor
+  /// definition for more information on when and how frequently the events are reported. For
+  /// example, step detectors report events when a step is detected.
+  ///
+  /// @see SensorManager#registerListener(SensorEventListener, Sensor, int, int)
+  static const int reportingModeSpecialTrigger = 3;
 
   // TODO(): The following arrays are fragile and error-prone. This needs to be refactored.
 
@@ -879,8 +906,15 @@ class Sensor {
     2,
   ];
 
-  static String setType(int value) {
-    switch (value) {
+  static String getSensorName(int sensorType) {
+    final string = getSensorString(sensorType);
+    final string1 = string.substring(string.lastIndexOf('.') + 1);
+    return (string1[0].toUpperCase() + string1.substring(1))
+        .replaceAll('_', ' ');
+  }
+
+  static String getSensorString(int sensorType) {
+    switch (sensorType) {
       case typeAccelerometer:
         return stringTypeAccelerometer;
       case typeAmbientTemperature:

@@ -1,6 +1,16 @@
 name: sensor_manager_android
-description: A Flutter plugin implementation of the android sensor API.
-version: 0.0.1
+description: >
+  This plugin gives you access to the Android sensor framework lets you access many types of sensors.
+
+  You can access the sensors and acquire raw sensor data by using this plugin. This plugin tries to mimic the sensor framework which is a part of the android.hardware package and includes the following classes and interfaces and the equivalent.
+  SensorManager - SensorManagerAndroid
+  You can use this class to create an instance of the sensor service and communicate the android framework. This class provides various methods for accessing and listing sensors, registering and unregistering sensor event listeners, and acquiring orientation information. This class also provides several sensor constants that are used to report sensor accuracy, set data acquisition rates, and calibrate sensors.
+  Sensor - Sensor
+  You can use this class to create an instance of a specific sensor. This class provides various methods that let you determine a sensor's capabilities.
+  SensorEvent - SensorEvent
+  The system uses this class to create a sensor event object, which provides information about a sensor event. A sensor event object includes the following information- the raw sensor data, the type of sensor that generated the event, the accuracy of the data, and the timestamp for the event.
+  Check the README for more.
+version: 0.0.2
 homepage: https://github.com/thew0205/sensor_manager_android.git
 
 environment:
