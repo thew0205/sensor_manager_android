@@ -1,6 +1,62 @@
 # sensor_manager_android
 This plugin gives you access to the Android sensor framework lets you access many types of sensors.
 
+## Platform Support
+| Android |
+| :-----: |
+|   ✔️    |
+
+## Usage
+
+Add `sensor_manager_android` as a dependency in your pubspec.yaml file.
+
+### Example
+
+```dart
+// Import package
+import 'package:sensor_manager_android/sensor_manager_android.dart';
+import 'package:sensor_manager_android/sensor.dart';
+import 'package:sensor_manager_android/sensor_event.dart';
+
+
+// Checking if dynamic sensor is supported
+try{
+ bool? isDynamicSensorDiscoverySupported = await SensorManagerAndroid
+                    .instance.isDynamicSensorDiscoverySupported();
+} on IncompatibleSDKVersionException catch (e) {
+  print(e);
+}
+// Getting the list of available sensors available on device
+// To get the list of all available sensor, pass no argument 
+// To get a particular sensor, pass the sensor type in 
+// e.g. Sensor.TYPE_LIGHT
+ List<Sensor> listOfSensor = await SensorManagerAndroid.instance.getSensorList();
+
+ // To get the default sensor pass the sensor type
+Sensor sensor = await SensorManagerAndroid.instance.getDefaultSensor(Sensor.TYPE_LIGHT);
+
+// To register a listener to a particular sensor pass the sensor type
+// an onSensorChanged and onAccuracyChanged function
+SensorEvent? sensorEvent;
+SensorManagerAndroid.instance.registerListener(
+      widget.sensor.type,
+      onSensorChanged: (p0) {
+        setState(() {
+          sensorEvent = p0;
+        });
+      },onAccuracyChanged: (p0, p1) {
+        
+      },
+    );
+// To cancel the listener pass the sensor type
+    SensorManagerAndroid.instance.unregisterListener(SensorType);
+
+```
+### List of Available sensors
+![List of Available sensors](/assets/sensor_list.png) 
+
+### Monitoring Sensor Events
+![Monitoring Sensor Events](/assets/accelaration.png)
 ## Description
 You can access the sensors and acquire raw sensor data by using this plugin. This plugin tries to mimic the sensor framework which is a part of the android.hardware package and includes the following classes and interfaces and the equivalent-
 
@@ -60,7 +116,6 @@ A sensor reports a new value.
 In this case the system invokes the onSensorChanged() method, providing you with a SensorEvent object. A SensorEvent object contains information about the new sensor data, including: the accuracy of the data, the sensor that generated the data, the timestamp at which the data was generated, and the new data that the sensor recorded.
 
 The following code shows how to use the onSensorChanged() method to monitor data from the light sensor. This example displays the sensor information and all the light information as the colour of a bulb and in raw form.
-![Monitoring Sensor Events](/assets/accelaration.png) ![Monitoring Sensor Events](/assets/step_counter.png)
 ```dart
 SensorEvent? sensorEvent;
 
@@ -135,6 +190,9 @@ SensorEvent? sensorEvent;
   }
 ```
 
+![Homepage](/assets/step_counter.png) ![Monitoring Sensor Events](/assets/step_counter.png)
+### Streaming SensorEvent Data
+![Streaming SensorEvent Data](/assets/brightness_animation.mp4)
 ## Getting Started
 
 * Create a new flutter project
@@ -145,57 +203,6 @@ SensorEvent? sensorEvent;
 Also check the example code
 
 
-## Platform Support
-| Android |
-| :-----: |
-|   ✔️    |
-
-## Usage
-
-Add `sensor_manager_android` as a dependency in your pubspec.yaml file.
-
-### Example
-
-```dart
-// Import package
-import 'package:sensor_manager_android/sensor_manager_android.dart';
-import 'package:sensor_manager_android/sensor.dart';
-import 'package:sensor_manager_android/sensor_event.dart';
-
-
-// Checking if dynamic sensor is supported
-try{
- bool? isDynamicSensorDiscoverySupported = await SensorManagerAndroid
-                    .instance.isDynamicSensorDiscoverySupported();
-} on IncompatibleSDKVersionException catch (e) {
-  print(e);
-}
-// Getting the list of available sensors available on device
-// To get the list of all available sensor, pass no argument 
-// To get a particular sensor, pass the sensor type in 
-// e.g. Sensor.TYPE_LIGHT
- List<Sensor> listOfSensor = await SensorManagerAndroid.instance.getSensorList();
-
- // To get the default sensor pass the sensor type
-Sensor sensor = await SensorManagerAndroid.instance.getDefaultSensor(Sensor.TYPE_LIGHT);
-
-// To register a listener to a particular sensor pass the sensor type
-// an onSensorChanged and onAccuracyChanged function
-SensorEvent? sensorEvent;
-SensorManagerAndroid.instance.registerListener(
-      widget.sensor.type,
-      onSensorChanged: (p0) {
-        setState(() {
-          sensorEvent = p0;
-        });
-      },onAccuracyChanged: (p0, p1) {
-        
-      },
-    );
-// To cancel the listener pass the sensor type
-    SensorManagerAndroid.instance.unregisterListener(SensorType);
-
-```
 
 ### Current setbacks
 * Listeners can only be set for the default sensor.
