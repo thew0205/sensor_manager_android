@@ -310,7 +310,7 @@ class Sensor {
   ///
   /// @deprecated use {@link android.hardware.SensorManager#getOrientation
   ///             SensorManager.getOrientation()} instead.
-  @Deprecated("Don't know the reason hy it is deprecated")
+  // @Deprecated("Don't know the reason why it is deprecated")
   static const int typeOrientation = 3;
 
   /// A constant string describing an orientation sensor type.
@@ -318,7 +318,7 @@ class Sensor {
   /// @see #typeOrientation
   /// @deprecated use {@link android.hardware.SensorManager#getOrientation
   ///             SensorManager.getOrientation()} instead.
-  @Deprecated("Don't know the reason hy it is deprecated")
+  // @Deprecated("Don't know the reason hy it is deprecated")
   static const String stringTypeOrientation = "android.sensor.orientation";
 
   /// A constant describing a gyroscope sensor type.
@@ -356,7 +356,7 @@ class Sensor {
   /// @deprecated use
   ///             {@link android.hardware.Sensor#typeAmbientTemperature
   ///             Sensor.typeAmbientTemperature} instead.
-  @Deprecated("{Sensor.typeAmbientTemperature} instead.")
+  // @Deprecated("{Sensor.typeAmbientTemperature} instead.")
   static const int typeTemperature = 7;
 
   /// A constant string describing a temperature sensor type
@@ -365,7 +365,7 @@ class Sensor {
   /// @deprecated use
   ///             {@link android.hardware.Sensor#STRINGTypeAmbientTemperature
   ///             Sensor.STRINGTypeAmbientTemperature} instead.
-  @Deprecated("{Sensor.STRINGTypeAmbientTemperature} instead.")
+  // @Deprecated("{Sensor.STRINGTypeAmbientTemperature} instead.")
   static const String stringTypeTemperature = "android.sensor.temperature";
 
   /// A constant describing a proximity sensor type. This is a wake up sensor.

@@ -60,6 +60,7 @@ A sensor reports a new value.
 In this case the system invokes the onSensorChanged() method, providing you with a SensorEvent object. A SensorEvent object contains information about the new sensor data, including: the accuracy of the data, the sensor that generated the data, the timestamp at which the data was generated, and the new data that the sensor recorded.
 
 The following code shows how to use the onSensorChanged() method to monitor data from the light sensor. This example displays the sensor information and all the light information as the colour of a bulb and in raw form.
+![Monitoring Sensor Events](/assets/accelaration.png) ![Monitoring Sensor Events](/assets/step_counter.png)
 ```dart
 SensorEvent? sensorEvent;
 
