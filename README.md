@@ -56,7 +56,7 @@ SensorManagerAndroid.instance.registerListener(
 | <img src="/assets/sensor_list.png?raw=true" width="400px"> | 
 
 ### Monitoring Sensor Events
-| <img src="/assets//assets/accelaration.png?raw=true" width="400px"> | 
+| <img src="/assets/acceleration.png?raw=true" width="400px"> | 
 
 ## Description
 You can access the sensors and acquire raw sensor data by using this plugin. This plugin tries to mimic the sensor framework which is a part of the android.hardware package and includes the following classes and interfaces and the equivalent.
@@ -191,13 +191,13 @@ SensorEvent? sensorEvent;
   }
 ```
 
-| <img src="/assets/step_counter.png?raw=true" width="400px"> | <img src="/assets/step_counter.png?raw=true" width="400px"> |
+| <img src="/assets/step_counter.png?raw=true" width="400px">  <img src="/assets/step_counter.png?raw=true" width="400px"> |
 
 ### Streaming SensorEvent Data
-<video width="400px"> <source src="/assets/light_sensor_animmation.mp4" type="video/mp4"></video>
-![Streaming SensorEvent Data](/assets/light_sensor_animmation.mp4)
-## Getting Started
+<video width="400px"> <source src="assets\light_sensor_animation.mp4" type="video/mp4"> Streaming SensorEvent Data not showing</video>
 
+
+## Getting Started
 * Create a new flutter project
 * Add "sensor_manager_android: ^0.0.2" to your pubspec.yaml file
 * Include "import 'package:sensor_manager_android/sensor_manager_android.dart';" at the top of your amin dart file
