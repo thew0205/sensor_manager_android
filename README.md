@@ -191,6 +191,9 @@ SensorEvent? sensorEvent;
 ```
 
 ![Homepage](/assets/step_counter.png) ![Monitoring Sensor Events](/assets/step_counter.png)
+
+| <img src="/assets/step_counter.png?raw=true" width="500px"> | <img src="/assets/step_counter.png?raw=true" width="608px"> |
+
 ### Streaming SensorEvent Data
 ![Streaming SensorEvent Data](/assets/light_sensor_animmation.mp4)
 ## Getting Started
