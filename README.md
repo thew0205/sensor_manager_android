@@ -58,7 +58,7 @@ SensorManagerAndroid.instance.registerListener(
 ### Monitoring Sensor Events
 ![Monitoring Sensor Events](/assets/accelaration.png)
 ## Description
-You can access the sensors and acquire raw sensor data by using this plugin. This plugin tries to mimic the sensor framework which is a part of the android.hardware package and includes the following classes and interfaces and the equivalent-
+You can access the sensors and acquire raw sensor data by using this plugin. This plugin tries to mimic the sensor framework which is a part of the android.hardware package and includes the following classes and interfaces and the equivalent.
 
 SensorManager - SensorManagerAndroid
 You can use this class to create an instance of the sensor service and communicate the android framework. This class provides various methods for accessing and listing sensors, registering and unregistering sensor event listeners, and acquiring orientation information. This class also provides several sensor constants that are used to report sensor accuracy, set data acquisition rates, and calibrate sensors.
@@ -192,7 +192,7 @@ SensorEvent? sensorEvent;
 
 ![Homepage](/assets/step_counter.png) ![Monitoring Sensor Events](/assets/step_counter.png)
 ### Streaming SensorEvent Data
-![Streaming SensorEvent Data](/assets/brightness_animation.mp4)
+![Streaming SensorEvent Data](/assets/light_sensor_animmation.mp4)
 ## Getting Started
 
 * Create a new flutter project
