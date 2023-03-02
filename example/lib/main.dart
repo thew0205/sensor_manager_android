@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:sensor_manager_android/sensor.dart';
@@ -45,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-                "Is Dynamic Sensor Discovery Supported : $isDynamicSensorDiscoverySupported"),
+                "Device supports dynamics sensor: $isDynamicSensorDiscoverySupported"),
             ElevatedButton(
               onPressed: () async {
                 isDynamicSensorDiscoverySupported = await SensorManagerAndroid
@@ -53,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     .isDynamicSensorDiscoverySupported();
                 setState(() {});
               },
-              child: const Text("isDynamicSensorDiscoverySupported"),
+              child: const Text("Check support for dynamic sensor"),
             ),
             ElevatedButton(
               onPressed: () {
@@ -154,7 +156,7 @@ class _BrightnessAnimationPageState extends State<BrightnessAnimationPage> {
                   SensorDataWidget(
                       "Power", " ${lightSensor!.power.toString()}"),
                   SensorDataWidget(
-                      "Min Delay", " ${lightSensor!.minDelay.toString()}"),
+                      "Min Delay", lightSensor!.minDelay.toString()),
                   SensorDataWidget(
                       "Max range", " ${lightSensor!.maxRange.toString()}"),
                   SensorDataWidget("Is Wake up sensor",
@@ -169,8 +171,8 @@ class _BrightnessAnimationPageState extends State<BrightnessAnimationPage> {
                       Icons.lightbulb,
                       size: 200,
                       color: const Color.fromARGB(255, 254, 152, 0).withOpacity(
-                        map_(sensorEvent?.values.first ?? 1000, 0,
-                            lightSensor?.maxRange ?? 10000, 0.15, 1),
+                        map_(log(sensorEvent?.values.first ?? 1000) +1, 0,
+                            log(lightSensor?.maxRange ?? 10000), 0.15, 1),
                       ),
                     ),
                   ),
@@ -185,7 +187,7 @@ class _BrightnessAnimationPageState extends State<BrightnessAnimationPage> {
 double map_(
     double value, double minValue, double maxValue, double min, double max) {
   final r = ((max - min) * (value - minValue) / (maxValue - minValue)) + min;
-  return r;
+  return r.clamp(min, max);
 }
 
 class SensorListWidget extends StatelessWidget {

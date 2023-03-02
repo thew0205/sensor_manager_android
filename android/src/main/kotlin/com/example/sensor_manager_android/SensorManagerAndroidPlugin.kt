@@ -53,12 +53,13 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
             "isDynamicSensorDiscoverySupported" -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     result.success(sensorManager.isDynamicSensorDiscoverySupported)
+                } else {
+                    result.error(
+                        "1",
+                        "${Build.VERSION_CODES.N}",
+                        null
+                    )
                 }
-                result.error(
-                    "1",
-                   "${Build.VERSION_CODES.N}",
-                    null
-                )
             }
             "getDynamicSensorList" -> {
                 val sensorMapList = mutableListOf<Map<String, Any>>()
@@ -66,19 +67,23 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
                     sensorManager.getDynamicSensorList(
                         call.argument<Int>("sensorType") ?: Sensor.TYPE_ALL
                     ).forEach { sensorMap: Sensor -> sensorMapList.add(sensorToJson(sensorMap)) }
-                     result.success(sensorMapList)
+                    result.success(sensorMapList)
+                } else {
+                    result.error(
+                        "1",
+                        "${Build.VERSION_CODES.N}",
+                        null
+                    )
                 }
-                 result.error(
-                    "1",
-                   "${Build.VERSION_CODES.N}",
-                    null
-                )
-               
+
             }
             "getDefaultSensor" -> {
                 var sensorMap: Map<String, Any> = mutableMapOf()
                 sensorMap =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && call.argument<Int>("wakeUp") != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && call.argument<Int>(
+                            "wakeUp"
+                        ) != null
+                    ) {
                         sensorToJson(
                             sensorManager.getDefaultSensor(
                                 call.argument<Int>("sensorType") ?: 0,
@@ -114,12 +119,13 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
                         DynamicSensorCallback(sensorManager)
                     )
                     result.success(null)
+                } else {
+                    result.error(
+                        "1",
+                        "${Build.VERSION_CODES.N}",
+                        null
+                    )
                 }
-                result.error(
-                    "1",
-                    "${Build.VERSION_CODES.N}",
-                    null
-                )
             }
             "requestTriggerSensor" -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -133,12 +139,13 @@ class SensorManagerAndroidPlugin : FlutterPlugin, MethodCallHandler {
                         SensorTriggerEventListener(sensorManager, sensorType)
                     )
                     result.success(null)
+                } else {
+                    result.error(
+                        "1",
+                        "${Build.VERSION_CODES.JELLY_BEAN_MR2}",
+                        null
+                    )
                 }
-                result.error(
-                    "1",
-                    "${Build.VERSION_CODES.JELLY_BEAN_MR2}",
-                    null
-                )
             }
             else -> {
                 result.notImplemented()
