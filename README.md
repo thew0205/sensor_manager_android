@@ -53,10 +53,11 @@ SensorManagerAndroid.instance.registerListener(
 
 ```
 ### List of Available sensors
-![List of Available sensors](/assets/sensor_list.png) 
+| <img src="/assets/sensor_list.png?raw=true" width="400px"> | 
 
 ### Monitoring Sensor Events
-![Monitoring Sensor Events](/assets/accelaration.png)
+| <img src="/assets//assets/accelaration.png?raw=true" width="400px"> | 
+
 ## Description
 You can access the sensors and acquire raw sensor data by using this plugin. This plugin tries to mimic the sensor framework which is a part of the android.hardware package and includes the following classes and interfaces and the equivalent.
 
@@ -190,11 +191,10 @@ SensorEvent? sensorEvent;
   }
 ```
 
-![Homepage](/assets/step_counter.png) ![Monitoring Sensor Events](/assets/step_counter.png)
-
-| <img src="/assets/step_counter.png?raw=true" width="500px"> | <img src="/assets/step_counter.png?raw=true" width="608px"> |
+| <img src="/assets/step_counter.png?raw=true" width="400px"> | <img src="/assets/step_counter.png?raw=true" width="400px"> |
 
 ### Streaming SensorEvent Data
+<video width="400px"> <source src="/assets/light_sensor_animmation.mp4" type="video/mp4"></video>
 ![Streaming SensorEvent Data](/assets/light_sensor_animmation.mp4)
 ## Getting Started
 
